@@ -3,15 +3,15 @@
 #include <ctime>
 #include <random>
 #include <iostream>
-
+#include <vector>
 
 using namespace std;
+
 
 MazeGenerator::MazeGenerator(int rows, int cols)
 	: rows(rows), cols(cols)
 {
-	cellCount = rows * cols;
-	visitedCellCount = 1;
+	srand(time(0));
 
 	grid = new Cell * [rows];
 	for (int row = 0; row < rows; row++)
@@ -24,8 +24,10 @@ MazeGenerator::MazeGenerator(int rows, int cols)
 		}
 	}
 
-	cellStack.push_back(grid[0][0]);
+	cellStack.push(&grid[0][0]);
 	grid[0][0].isVisited = true;
+	grid[0][0].isTop = true;
+	visitedCells = 1;
 }
 
 MazeGenerator::~MazeGenerator()
@@ -37,82 +39,103 @@ MazeGenerator::~MazeGenerator()
 
 bool MazeGenerator::isFinished()
 {
-	if (visitedCellCount == cellCount)
+	if (visitedCells == rows * cols)
 		return true;
 	return false;
 }
 
 void MazeGenerator::generateStep()
 {
-	if (isFinished() || !cellStack.size())
+	/*
+		start with the cell at the top of the stack
+		if cell has no neighbors
+			pop it from the stack
+		repeat until u have a cell with a neighbor
+		choose a cell next to it if it is not visited
+		and repeat
+
+	*/
+	if (cellStack.empty())
+	{
+		cout << "Empty stack" << endl;
 		return;
+	}
 
-	chooseRandomDir(cellStack.back());
-}
-
-bool MazeGenerator::chooseRandomDir(Cell & cell)
-{
-	srand(time(0));
-
-	vector<Cell> cells;
+	Cell * cell = cellStack.top();
+	int row = cell->row;
+	int col = cell->col;
+	cell->isTop = true;
+	
+	///////////////////
+	if (!cell->hasNeighbors)
+	{
+		cout << "popped: " << cell->row << ", " << cell->col << endl;
+		cellStack.pop();
+		cell->isTop = false;
+		return;
+	}
+	///////////////////
+	
+	///////////////////
+	vector<Cell *> cells;
 	vector<int> walls;
 
-	getNeighbors(cell, cells, walls);
-
-	cout << cellStack.size() << endl;
-
-	if (!grid[cell.row][cell.col].hasNeighbors)
+	if (row > 0 && !grid[row - 1][col].isVisited)
 	{
-		cell.hasNeighbors = false;
-		cellStack.pop_back();
-		return false;
-	}
-
-	int dir = rand() % cells.size();
-
-	cellStack.push_back(grid[cells[dir].row][cells[dir].col]);
-	grid[cell.row][cell.col].walls[walls[dir]] = false;///////////////
-	grid[cells[dir].row][cells[dir].col].isVisited = true;
-	visitedCellCount++;
-	
-	if (walls[dir] == 0)
-		grid[cells[dir].row][cells[dir].col].walls[2] = false;
-	else if (walls[dir] == 1)
-		grid[cells[dir].row][cells[dir].col].walls[3] = false;
-	else if (walls[dir] == 2)
-		grid[cells[dir].row][cells[dir].col].walls[0] = false;
-	else if (walls[dir] == 3)
-		grid[cells[dir].row][cells[dir].col].walls[1] = false;
-
-	return true;
-}
-
-void MazeGenerator::getNeighbors(Cell & cell, vector<Cell> & cells, vector<int> & walls)
-{
-	if (cell.row > 0 && !grid[cell.row - 1][cell.col].isVisited)
-	{
-		cells.push_back(grid[cell.row - 1][cell.col]);
+		cells.push_back(&grid[row - 1][col]);
 		walls.push_back(0);
 	}
-	if (cell.row < rows - 2 && !grid[cell.row + 1][cell.col].isVisited)
+	if (row <= rows - 2 && !grid[row + 1][col].isVisited)
 	{
-		cells.push_back(grid[cell.row + 1][cell.col]);
+		cells.push_back(&grid[row + 1][col]);
 		walls.push_back(2);
 	}
-	if (cell.col > 0 && !grid[cell.row][cell.col - 1].isVisited)
+	if (col > 0 && !grid[row][col - 1].isVisited)
 	{
-		cells.push_back(grid[cell.row][cell.col - 1]);
+		cells.push_back(&grid[row][col - 1]);
 		walls.push_back(3);
 	}
-	if (cell.row < cols - 2 && !grid[cell.row][cell.col + 1].isVisited)
+	if (col <= cols - 2 && !grid[row][col + 1].isVisited)
 	{
-		cells.push_back(grid[cell.row][cell.col + 1]);
+		cells.push_back(&grid[row][col + 1]);
 		walls.push_back(1);
 	}
 
+	for (int i = 0; i < walls.size(); i++)
+		cout << walls[i] << " ";
+	cout << endl;
+
 	if (!cells.size())
-		grid[cell.row][cell.col].hasNeighbors = false;
+	{
+		cell->hasNeighbors = false;
+		return;
+	}
+	///////////////////
+
+	///////////////////
+	int dir = rand() % cells.size();
+	cellStack.push(cells[dir]);
+	cells[dir]->isVisited = true;
+	cells[dir]->isTop = true;
+	cell->isTop = false;
+	visitedCells++;
+	///////////////////
+	
+	///////////////////
+	cell->walls[walls[dir]] = false;///////////////
+
+	if (walls[dir] == 0)
+		cells[dir]->walls[2] = false;
+	else if (walls[dir] == 1)
+		cells[dir]->walls[3] = false;
+	else if (walls[dir] == 2)
+		cells[dir]->walls[0] = false;
+	else if (walls[dir] == 3)
+		cells[dir]->walls[1] = false;
+	///////////////////
 }
+
+
 
 Cell ** MazeGenerator::getGrid()
 {

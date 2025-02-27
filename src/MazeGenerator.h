@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Cell.h"
-#include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -11,12 +11,8 @@ class MazeGenerator
 private:
 	const int rows, cols;
 	Cell ** grid;
-	int visitedCellCount;
-	int cellCount;
-	vector<Cell> cellStack;
-
-	bool chooseRandomDir(Cell & cell);
-	void getNeighbors(Cell & cell, vector<Cell> & cells, vector<int> & walls);
+	stack<Cell *> cellStack;
+	int visitedCells;
 
 public:
 
@@ -24,6 +20,8 @@ public:
 	~MazeGenerator();
 
 	void generateStep();
+
+
 	Cell ** getGrid();
 
 	bool isFinished();

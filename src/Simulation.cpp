@@ -2,7 +2,7 @@
 
 
 Simulation::Simulation()
-	: rows(8), cols(8), windowWidth(800), windowHeight(800),
+	: rows(40), cols(40), windowWidth(900), windowHeight(900),
       renderer(&window, windowWidth, windowHeight), mazeGenerator(rows, cols)
 {
     cellSize = windowWidth / cols;
@@ -28,10 +28,14 @@ void Simulation::run()
 {
     while (window.isOpen())
     {
-        window.clear();
+        window.clear(sf::Color(128, 128, 128));
         checkEvents();
-	    renderer.render(mazeGenerator.getGrid(), rows, cols, cellSize);
-        mazeGenerator.generateStep();
+        if (!mazeGenerator.isFinished())
+        {
+            mazeGenerator.generateStep();
+
+        }
+	        else renderer.render(mazeGenerator.getGrid(), rows, cols, cellSize);
         window.display();
     }
 }
