@@ -69,7 +69,6 @@ void MazeGenerator::generateStep()
 	///////////////////
 	if (!cell->hasNeighbors)
 	{
-		cout << "popped: " << cell->row << ", " << cell->col << endl;
 		cellStack.pop();
 		cell->isTop = false;
 		return;
@@ -100,10 +99,6 @@ void MazeGenerator::generateStep()
 		cells.push_back(&grid[row][col + 1]);
 		walls.push_back(1);
 	}
-
-	for (int i = 0; i < walls.size(); i++)
-		cout << walls[i] << " ";
-	cout << endl;
 
 	if (!cells.size())
 	{

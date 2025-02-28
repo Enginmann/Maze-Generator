@@ -8,7 +8,7 @@ class Simulation
 private:
 	const int rows, cols;
 	const int windowWidth, windowHeight;
-	float cellSize;
+	float cellWidth, cellHeight;
 
 	sf::RenderWindow window;
 	
@@ -16,7 +16,7 @@ private:
 	MazeGenerator mazeGenerator;
 
 public:
-	Simulation();
+	Simulation(int rows, int cols, int fps, int windowWidth, int windowHeight);
 	
 	void run();
 

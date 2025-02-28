@@ -1,11 +1,12 @@
 #include "Simulation.h"
 
 
-Simulation::Simulation()
-	: rows(40), cols(40), windowWidth(900), windowHeight(900),
-      renderer(&window, windowWidth, windowHeight), mazeGenerator(rows, cols)
+Simulation::Simulation(int rows, int cols, int fps, int windowWidth, int windowHeight)
+	: rows(rows), cols(cols), windowWidth(windowWidth), windowHeight(windowHeight),
+      renderer(&window, windowWidth, windowHeight, fps), mazeGenerator(rows, cols)
 {
-    cellSize = windowWidth / cols;
+    cellWidth = windowWidth / cols;
+    cellHeight = windowHeight / rows;
 }
 
 void Simulation::checkEvents()
@@ -31,11 +32,8 @@ void Simulation::run()
         window.clear(sf::Color(128, 128, 128));
         checkEvents();
         if (!mazeGenerator.isFinished())
-        {
             mazeGenerator.generateStep();
-
-        }
-	        else renderer.render(mazeGenerator.getGrid(), rows, cols, cellSize);
+	    renderer.render(mazeGenerator.getGrid(), rows, cols, cellWidth, cellHeight);
         window.display();
     }
 }
