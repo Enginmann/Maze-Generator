@@ -21,6 +21,8 @@ void Simulation::checkEvents()
         {
             if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                 window.close();
+            else if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
+                reset();
         }
     }
 }
@@ -36,4 +38,9 @@ void Simulation::run()
 	    renderer.render(mazeGenerator.getGrid(), rows, cols, cellWidth, cellHeight);
         window.display();
     }
+}
+
+void Simulation::reset()
+{
+    mazeGenerator.reset();
 }

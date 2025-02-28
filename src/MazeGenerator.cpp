@@ -130,7 +130,28 @@ void MazeGenerator::generateStep()
 	///////////////////
 }
 
+void MazeGenerator::reset()
+{
+	for (int row = 0; row < rows; row++)
+		delete[] grid[row];
+	delete[] grid;
 
+	grid = new Cell * [rows];
+	for (int row = 0; row < rows; row++)
+	{
+		grid[row] = new Cell[cols];
+		for (int col = 0; col < cols; col++)
+		{
+			grid[row][col].row = row;
+			grid[row][col].col = col;
+		}
+	}
+
+	cellStack.push(&grid[0][0]);
+	grid[0][0].isVisited = true;
+	grid[0][0].isTop = true;
+	visitedCells = 1;
+}
 
 Cell ** MazeGenerator::getGrid()
 {

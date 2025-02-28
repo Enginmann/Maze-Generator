@@ -21,8 +21,9 @@ public:
 
 	void generateStep();
 
-
 	Cell ** getGrid();
 
 	bool isFinished();
+
+	void reset();
 };

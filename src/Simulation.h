@@ -21,4 +21,6 @@ public:
 	void run();
 
 	void checkEvents();
+
+	void reset();
 };
