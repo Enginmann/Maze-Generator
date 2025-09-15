@@ -12,6 +12,7 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main "src/main.cpp" "src/Renderer.h" "src/Renderer.cpp" "src/MazeGenerator.h" "src/MazeGenerator.cpp" "src/Simulation.h" "src/Simulation.cpp" "src/Cell.h")
+add_executable(main WIN32 "src/main.cpp" "src/Renderer.h" "src/Renderer.cpp" "src/MazeGenerator.h" "src/MazeGenerator.cpp" "src/Simulation.h" "src/Simulation.cpp" "src/Cell.h")
 target_compile_features(main PRIVATE cxx_std_17)
-target_link_libraries(main PRIVATE SFML::Graphics)
+#target_link_libraries(main PRIVATE SFML::Graphics)
+target_link_libraries(main PRIVATE SFML::Graphics SFML::Main) # no terminal
