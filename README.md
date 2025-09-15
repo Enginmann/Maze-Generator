@@ -30,36 +30,6 @@ https://github.com/user-attachments/assets/68e273bc-3edc-493d-85c0-6e1a63ca38f7
 
 > 🎉 **No manual SFML installation needed!** The project automatically downloads and builds SFML 3.0.0 using CMake's FetchContent.
 
-# 📦 Installation
-
-### Prerequisites
-
-#### On Windows:
-- Install Visual Studio with C++ support
-- Install CMake from [cmake.org](https://cmake.org/download/)
-- Install Git from [git-scm.com](https://git-scm.com/)
-
-### Building the Project
-
-1. **📂 Clone the repository**:
-```bash
-git clone https://github.com/Enginmann/Maze-Generator.git
-cd Maze-Generator
-```
-
-2. **🏗️ Configure and build with CMake**:
-```bash
-cmake -B build
-cmake --build build
-```
-
-3. **🚀 Run the executable**:
-```bash
-.\build\bin\main.exe
-```
-
-> ⏱️ **First build note**: The initial build will take a few minutes as CMake downloads and compiles SFML automatically.
-
 ## 🎯 How to Use
 
 ### 🎮 Controls
@@ -168,3 +138,4 @@ Maze-Generator/
 ---
 
 🎉 **Enjoy watching mazes come to life!** This project demonstrates the beauty of depth-first search algorithms through real-time visualization. Perfect for learning about maze generation, graph algorithms, and computer graphics programming.
+
