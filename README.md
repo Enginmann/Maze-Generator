@@ -4,7 +4,7 @@ A real-time maze generation visualization built with C++ and SFML, implementing 
 
 ## 📸 Demo
 
-https://github.com/user-attachments/assets/68e273bc-3edc-493d-85c0-6e1a63ca38f7
+https://github.com/user-attachments/assets/8d6d47c9-bdfe-45ed-a0ec-52d0e1e3f3b5
 
 *Watch as the maze generates using iterative DFS backtracking*
 
@@ -138,4 +138,5 @@ Maze-Generator/
 ---
 
 🎉 **Enjoy watching mazes come to life!** This project demonstrates the beauty of depth-first search algorithms through real-time visualization. Perfect for learning about maze generation, graph algorithms, and computer graphics programming.
+
 
